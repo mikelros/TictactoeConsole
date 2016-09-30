@@ -4,15 +4,15 @@ package es.mikel.tictactoe;
  * @author Mikel
  *
  */
-public class Vector2 	{
+public class Vector2 {
 	private int x;
 	private int y;
 	private String value;
-	
+
 	public Vector2() {
-		
+
 	}
-	
+
 	public Vector2(int x, int y, String value) {
 		this.x = x;
 		this.y = y;
@@ -42,13 +42,13 @@ public class Vector2 	{
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
+
 	@Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Vector2){
-            Vector2 vector = (Vector2) obj;
-            return vector.getX() == getX() && vector.getY() == getY();
-        }
-        return (this == obj);
-    }
+	public boolean equals(Object obj) {
+		if (obj instanceof Vector2) {
+			Vector2 vector = (Vector2) obj;
+			return vector.getX() == getX() && vector.getY() == getY();
+		}
+		return (this == obj);
+	}
 }
