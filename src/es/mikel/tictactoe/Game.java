@@ -1,5 +1,7 @@
 package es.mikel.tictactoe;
 
+import java.util.Random;
+
 /**
  * @author Mikel
  *
@@ -7,7 +9,7 @@ package es.mikel.tictactoe;
 public class Game {
 	private MapManager mapManager;
 	private Player player;
-	private IA ia;
+	private AI ai;
 	
 	public MapManager getMapManager() {
 		return mapManager;
@@ -16,7 +18,8 @@ public class Game {
 	public Game() {
 		mapManager = new MapManager();
 		player = new Player(this);
-		ia = new IA(this);
+		ai = new AI(this);
+		setFirst();
 		loop();
 	}
 
@@ -24,8 +27,20 @@ public class Game {
 		while (isNotGameOver()) {
 			clearConsole();
 			printCurrentMapStatus();
+			thinkMovements();
 		}
 
+	}
+
+	private void thinkMovements() {
+		if (player.isFirst()) {
+			player.thinkMovement();
+			ai.thinkMovement();
+		} else {
+			ai.thinkMovement();
+			printCurrentMapStatus();
+			player.thinkMovement();
+		}
 	}
 
 	private void printCurrentMapStatus() {
@@ -40,7 +55,7 @@ public class Game {
 		System.out.println("╚══════════════════════════════════════════════╝");
 		System.out.println("");
 		System.out.println("Write the position where you want to put your token (x, y -> ex: 1, 1):");
-		player.thinkMovement();
+		
 	}
 
 	private boolean isNotGameOver() {
@@ -64,6 +79,17 @@ public class Game {
 			else
 				Runtime.getRuntime().exec("clear");
 		} catch (Exception ex) {
+		}
+	}
+	
+	private void setFirst() {
+		Random rnd = new Random();
+		int chosen = rnd.nextInt(2);
+  
+		if (chosen == 0) {
+			player.setFirst(true);
+		} else {
+			ai.setFirst(true);
 		}
 	}
 
