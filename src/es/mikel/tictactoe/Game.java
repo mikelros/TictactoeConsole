@@ -18,7 +18,9 @@ public class Game {
 	public Game() {
 		mapManager = new MapManager();
 		player = new Player(this);
+		player.setIcon("X");
 		ai = new AI(this);
+		ai.setIcon("O");
 		setFirst();
 		loop();
 	}
@@ -33,6 +35,7 @@ public class Game {
 	}
 
 	private void thinkMovements() {
+		//TODO fix game flux
 		if (player.isFirst()) {
 			player.thinkMovement();
 			ai.thinkMovement();
@@ -79,6 +82,7 @@ public class Game {
 			else
 				Runtime.getRuntime().exec("clear");
 		} catch (Exception ex) {
+			System.err.println(ex.getMessage());
 		}
 	}
 	

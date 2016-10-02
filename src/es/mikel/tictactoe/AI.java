@@ -1,5 +1,7 @@
 package es.mikel.tictactoe;
 
+import java.util.Random;
+
 /**
  * @author Mikel
  *
@@ -7,37 +9,52 @@ package es.mikel.tictactoe;
 public class AI {
 	private Game currentGame;
 	private boolean isFirst;
+	public boolean hasDoneFirstMovement;
 	private Vector2[] gamePositions;
+	private String difficulty;
+	private String icon;
 	
 	public AI(Game currentGame) {
 		this.currentGame = currentGame;
 		isFirst = false;
 		gamePositions = currentGame.getMapManager().getPositions();
+		hasDoneFirstMovement = false;
 	}
 	
 	public void thinkMovement() {
+		if(isFirst && ! hasDoneFirstMovement) {
+			firstMovement();
+		}
+		
 		//Checks to try to win
-		checkDiagonals("O");
-
-		checkRowsColumns("O");
+		checkDiagonals(icon);
+		checkRowsColumns(icon);
 		
 		// Checks to avoid losing
-		checkDiagonals("X");
+		checkDiagonals(icon == "X" ? "O" : "X");		
+		checkRowsColumns(icon == "X" ? "O" : "X");
 		
-		checkRowsColumns("X");
-		
-		firstMovement();
-		
-		// lack of intermediate movements
+		randomMovement();
+	}
+
+	private void randomMovement() {
+		Random rnd = new Random();
+		Vector2 position = new Vector2();
+		do {
+			position = new Vector2(rnd.nextInt(3), rnd.nextInt(3), icon);
+		} while (! currentGame.getMapManager().canChangePositionValue(position));
+		currentGame.getMapManager().changePositionValue(position);
 	}
 
 	private void checkRowsColumns(String value) {
 		String aux = "";
 		int count = 0;
+		
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 3; j++) {
 				//Zero is checking columns and one is checking rows
 				if (i == 0) {
+					System.out.println(gamePositions[j].getValue());
 					aux = gamePositions[j].getValue() + gamePositions[j + 3].getValue() + gamePositions[j + 6].getValue();
 				} else {					
 					aux = gamePositions[j + count].getValue() + gamePositions[j + count + 1].getValue() + gamePositions[j + count + 2].getValue();
@@ -46,9 +63,9 @@ public class AI {
 				
 				if ((aux.contains(value + value) && aux.contains(" ")) || aux.contains(value + " " + value)) {
 					if (i == 0) {
-						currentGame.getMapManager().changePositionValue(new Vector2(j, aux.indexOf(" ")), "O");
+						currentGame.getMapManager().changePositionValue(new Vector2(j, aux.indexOf(" "), icon));
 					} else {
-						currentGame.getMapManager().changePositionValue(new Vector2(aux.indexOf(" "), j), "O");
+						currentGame.getMapManager().changePositionValue(new Vector2(aux.indexOf(" "), j, icon));
 					}
 					return;
 				}
@@ -59,6 +76,7 @@ public class AI {
 	private void checkDiagonals(String value) {
 		String aux = "";
 		Vector2 newPosition = new Vector2();
+		newPosition.setValue(icon);
 		
 		// Left to Right
 		aux = gamePositions[0].getValue() + gamePositions[4].getValue() + gamePositions[8].getValue();
@@ -83,7 +101,7 @@ public class AI {
 				newPosition.setY(-1);
 				break;
 			}
-			currentGame.getMapManager().changePositionValue(newPosition, "O");
+			currentGame.getMapManager().changePositionValue(newPosition);
 			return;
 		}
 		
@@ -110,17 +128,19 @@ public class AI {
 				newPosition.setY(-1);
 				break;
 			}
-			currentGame.getMapManager().changePositionValue(newPosition, "O");
+			currentGame.getMapManager().changePositionValue(newPosition);
 			return;
 		}
 	}
 
 	private void firstMovement() {
-		if (isFirst || currentGame.getMapManager().canChangePositionValue(new Vector2(1, 1))) {
-			currentGame.getMapManager().changePositionValue(new Vector2(1, 1), "O");
+		if (isFirst) {
+			currentGame.getMapManager().changePositionValue(new Vector2(1, 1, icon));
 		} else {
-			currentGame.getMapManager().changePositionValue(new Vector2(0, 0), "O"); //TODO make it random ¿?
+			randomMovement();
 		}
+		
+		hasDoneFirstMovement = true;
 	}
 
 	public boolean isFirst() {
@@ -129,6 +149,22 @@ public class AI {
 
 	public void setFirst(boolean isFirst) {
 		this.isFirst = isFirst;
+	}
+
+	public String getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(String difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 	
 	
