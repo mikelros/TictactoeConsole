@@ -34,6 +34,7 @@ public class AI {
 		checkDiagonals(icon == "X" ? "O" : "X");		
 		checkRowsColumns(icon == "X" ? "O" : "X");
 		
+		//TODO FIX THIS BECAUSE THE AI DOES DOUBLE MOVEMENTS, IT IS SMARTER THAN ME. THE FEARS OF ALAN TURING HAVE MADE THEMSELVES INTO REALITY.
 		randomMovement();
 	}
 
