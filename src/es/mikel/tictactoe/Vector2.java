@@ -13,6 +13,11 @@ public class Vector2 {
 
 	}
 
+	public Vector2(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+
 	public Vector2(int x, int y, String value) {
 		this.x = x;
 		this.y = y;
@@ -46,9 +51,10 @@ public class Vector2 {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Vector2) {
-			Vector2 vector = (Vector2) obj;
-			return vector.getX() == getX() && vector.getY() == getY();
+			Vector2 pos = (Vector2) obj;
+			return getX() == pos.getX() && getY() == pos.getY();
 		}
-		return (this == obj);
+		return false;
 	}
+
 }

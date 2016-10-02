@@ -8,9 +8,11 @@ import java.util.Scanner;
  */
 public class Player {
 	private Game currentGame;
+	private boolean isFirst;
 	
 	public Player(Game currentGame) {
 		this.currentGame = currentGame;
+		isFirst = false;
 	}
 	
 	public void thinkMovement() {
@@ -22,7 +24,7 @@ public class Player {
 		int desiredX = Game.isNumeric(String.valueOf(desiredPositionAnswer.charAt(0)))
 				? Character.getNumericValue(desiredPositionAnswer.charAt(0)) : -1;
 		int desiredY = Game.isNumeric(String.valueOf(desiredPositionAnswer.charAt(3)))
-				? Character.getNumericValue(desiredPositionAnswer.charAt(0)) : -1;
+				? Character.getNumericValue(desiredPositionAnswer.charAt(3)) : -1;
 
 		Vector2 desiredPosition = new Vector2(desiredX, desiredY, "X");
 		makeMovement(scanner, desiredPosition);
@@ -30,12 +32,19 @@ public class Player {
 	
 	private void makeMovement(Scanner scanner, Vector2 desiredPosition) {
 		if (desiredPosition.getX() != -1 && desiredPosition.getY() != -1 && currentGame.getMapManager().canChangePositionValue(desiredPosition)) {
-			currentGame.getMapManager().changePositionValue(desiredPosition);
+			currentGame.getMapManager().changePositionValue(desiredPosition, "X");
 		} else {
 			System.out.println("That's not a valid position.");
 			scanner.nextLine();
 		}
 	}
-	
+
+	public boolean isFirst() {
+		return isFirst;
+	}
+
+	public void setFirst(boolean isFirst) {
+		this.isFirst = isFirst;
+	}
 	
 }

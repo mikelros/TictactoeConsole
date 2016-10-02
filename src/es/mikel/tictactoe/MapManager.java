@@ -25,10 +25,10 @@ public class MapManager {
 						: false;
 	}
 
-	public void changePositionValue(Vector2 position) {
+	public void changePositionValue(Vector2 position, String value) {
 		Arrays.asList(positions).get(Arrays.asList(positions).indexOf(position)).setX(position.getX());
 		Arrays.asList(positions).get(Arrays.asList(positions).indexOf(position)).setY(position.getY());
-		Arrays.asList(positions).get(Arrays.asList(positions).indexOf(position)).setValue("X");
+		Arrays.asList(positions).get(Arrays.asList(positions).indexOf(position)).setValue(value);
 		;
 	}
 }
