@@ -16,17 +16,22 @@ public class AI {
 	}
 	
 	public void thinkMovement() {
+		//Checks to try to win
+		checkDiagonals("O");
+
+		checkRowsColumns("O");
+		
+		// Checks to avoid losing
+		checkDiagonals("X");
+		
+		checkRowsColumns("X");
 		
 		firstMovement();
 		
-		checkDiagonals();
-		
-		checkRowsColumns();
-		
-		//it can't win by now, it also can't do first movements
+		// lack of intermediate movements
 	}
 
-	private void checkRowsColumns() {
+	private void checkRowsColumns(String value) {
 		String aux = "";
 		int count = 0;
 		for (int i = 0; i < 2; i++) {
@@ -39,26 +44,26 @@ public class AI {
 					count += 2;
 				}
 				
-				if ((aux.contains("XX") && aux.contains(" ")) || aux.contains("X X")) {
+				if ((aux.contains(value + value) && aux.contains(" ")) || aux.contains(value + " " + value)) {
 					if (i == 0) {
 						currentGame.getMapManager().changePositionValue(new Vector2(j, aux.indexOf(" ")), "O");
 					} else {
 						currentGame.getMapManager().changePositionValue(new Vector2(aux.indexOf(" "), j), "O");
 					}
-					break;
+					return;
 				}
 			}
 		}
 	}
 
-	private void checkDiagonals() {
+	private void checkDiagonals(String value) {
 		String aux = "";
 		Vector2 newPosition = new Vector2();
 		
 		// Left to Right
 		aux = gamePositions[0].getValue() + gamePositions[4].getValue() + gamePositions[8].getValue();
 
-		if((aux.contains("XX") && aux.contains(" ")) || aux.contains("X X")) {
+		if((aux.contains(value + value) && aux.contains(" ")) || aux.contains(value + " " + value)) {
 			
 			switch (aux.indexOf(" ")) {
 			case 0:
@@ -78,13 +83,14 @@ public class AI {
 				newPosition.setY(-1);
 				break;
 			}
-			currentGame.getMapManager().changePositionValue(newPosition, "0");
+			currentGame.getMapManager().changePositionValue(newPosition, "O");
+			return;
 		}
 		
 		// Right to Left
 		aux = gamePositions[2].getValue() + gamePositions[4].getValue() + gamePositions[6].getValue();
 
-		if((aux.contains("XX") && aux.contains(" ")) || aux.contains("X X")) {
+		if((aux.contains(value + value) && aux.contains(" ")) || aux.contains(value + " " + value)) {
 			
 			switch (aux.indexOf(" ")) {
 			case 0:
@@ -105,6 +111,7 @@ public class AI {
 				break;
 			}
 			currentGame.getMapManager().changePositionValue(newPosition, "O");
+			return;
 		}
 	}
 
