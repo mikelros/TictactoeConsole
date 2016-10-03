@@ -22,20 +22,23 @@ public class AI {
 	}
 	
 	public void thinkMovement() {
-		if(isFirst && ! hasDoneFirstMovement) {
-			firstMovement();
+		
+		if (hasDoneFirstMovement && ! checkHasWinningSituation() && ! checkHasLosingSituation()) {
+			randomMovement();
+			System.out.println("Done rnd move");
 		}
 		
-		//Checks to try to win
-		checkDiagonals(icon);
-		checkRowsColumns(icon);
+		firstMovement();
+		//Apparently fixed
 		
-		// Checks to avoid losing
-		checkDiagonals(icon == "X" ? "O" : "X");		
-		checkRowsColumns(icon == "X" ? "O" : "X");
-		
-		//TODO FIX THIS BECAUSE THE AI DOES DOUBLE MOVEMENTS, IT IS SMARTER THAN ME. THE FEARS OF ALAN TURING HAVE MADE THEMSELVES INTO REALITY.
-		randomMovement();
+	}
+
+	private boolean checkHasLosingSituation() {
+		return checkDiagonals(icon == "X" ? "O" : "X") || checkRowsColumns(icon == "X" ? "O" : "X");
+	}
+
+	private boolean checkHasWinningSituation() {
+		return checkDiagonals(icon) || checkRowsColumns(icon);
 	}
 
 	private void randomMovement() {
@@ -47,7 +50,7 @@ public class AI {
 		currentGame.getMapManager().changePositionValue(position);
 	}
 
-	private void checkRowsColumns(String value) {
+	private boolean checkRowsColumns(String value) {
 		String aux = "";
 		int count = 0;
 		
@@ -55,7 +58,6 @@ public class AI {
 			for (int j = 0; j < 3; j++) {
 				//Zero is checking columns and one is checking rows
 				if (i == 0) {
-					System.out.println(gamePositions[j].getValue());
 					aux = gamePositions[j].getValue() + gamePositions[j + 3].getValue() + gamePositions[j + 6].getValue();
 				} else {					
 					aux = gamePositions[j + count].getValue() + gamePositions[j + count + 1].getValue() + gamePositions[j + count + 2].getValue();
@@ -68,13 +70,15 @@ public class AI {
 					} else {
 						currentGame.getMapManager().changePositionValue(new Vector2(aux.indexOf(" "), j, icon));
 					}
-					return;
+					return true;
 				}
 			}
 		}
+		
+		return false;
 	}
 
-	private void checkDiagonals(String value) {
+	private boolean checkDiagonals(String value) {
 		String aux = "";
 		Vector2 newPosition = new Vector2();
 		newPosition.setValue(icon);
@@ -103,7 +107,7 @@ public class AI {
 				break;
 			}
 			currentGame.getMapManager().changePositionValue(newPosition);
-			return;
+			return true;
 		}
 		
 		// Right to Left
@@ -130,18 +134,23 @@ public class AI {
 				break;
 			}
 			currentGame.getMapManager().changePositionValue(newPosition);
-			return;
+			return true;
 		}
+		
+		return false;
 	}
 
 	private void firstMovement() {
-		if (isFirst) {
-			currentGame.getMapManager().changePositionValue(new Vector2(1, 1, icon));
-		} else {
-			randomMovement();
+		if(! hasDoneFirstMovement) {
+			if (isFirst && currentGame.getMapManager().canChangePositionValue(new Vector2(1, 1, icon))) {
+				currentGame.getMapManager().changePositionValue(new Vector2(1, 1, icon));
+			} else {
+				randomMovement();
+			}
+			
+			hasDoneFirstMovement = true;
 		}
 		
-		hasDoneFirstMovement = true;
 	}
 
 	public boolean isFirst() {

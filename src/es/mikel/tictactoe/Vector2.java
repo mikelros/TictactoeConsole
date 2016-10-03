@@ -52,7 +52,7 @@ public class Vector2 {
 	public boolean equals(Object obj) {
 		if (obj instanceof Vector2) {
 			Vector2 pos = (Vector2) obj;
-			return getX() == pos.getX() && getY() == pos.getY();
+			return (getX() == pos.getX() && getY() == pos.getY());
 		}
 		return false;
 	}

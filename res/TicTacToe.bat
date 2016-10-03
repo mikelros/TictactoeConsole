@@ -1,2 +1,2 @@
 title TicTacToe game!
-java -jar test.jar
+java -jar code.jar

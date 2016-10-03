@@ -17,6 +17,8 @@ public class Player {
 	}
 	
 	public void thinkMovement() {
+		String result = "";
+		do {
 		Scanner scanner = new Scanner(System.in);
 		String desiredPositionAnswer = scanner.nextLine();
 
@@ -28,15 +30,17 @@ public class Player {
 				? Character.getNumericValue(desiredPositionAnswer.charAt(3)) : -1;
 
 		Vector2 desiredPosition = new Vector2(desiredX, desiredY, icon);
-		makeMovement(scanner, desiredPosition);
+		result = makeMovement(scanner, desiredPosition);
+		} while (result != "");
 	}
 	
-	private void makeMovement(Scanner scanner, Vector2 desiredPosition) {
+	private String makeMovement(Scanner scanner, Vector2 desiredPosition) {
 		if (desiredPosition.getX() != -1 && desiredPosition.getY() != -1 && currentGame.getMapManager().canChangePositionValue(desiredPosition)) {
 			currentGame.getMapManager().changePositionValue(desiredPosition);
+			return "";
 		} else {
-			System.out.println("That's not a valid position.");
-			scanner.nextLine();
+			System.out.println("That's not a valid position. Please write another.");
+			return "failed";
 		}
 	}
 
