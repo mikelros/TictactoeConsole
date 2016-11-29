@@ -10,9 +10,9 @@ public class MapManager {
 	private Vector2[] positions;
 
 	public MapManager() {
-		positions = new Vector2[] { new Vector2(0, 0, " "), new Vector2(1, 0, " "), new Vector2(2, 0, " "),
-				new Vector2(0, 1, " "), new Vector2(1, 1, " "), new Vector2(2, 1, " "), new Vector2(0, 2, " "),
-				new Vector2(1, 2, " "), new Vector2(2, 2, " ") };
+		positions = new Vector2[] { new Vector2(0, 0), new Vector2(1, 0), new Vector2(2, 0),
+				new Vector2(0, 1), new Vector2(1, 1), new Vector2(2, 1), new Vector2(0, 2),
+				new Vector2(1, 2), new Vector2(2, 2) };
 	}
 
 	public Vector2[] getPositions() {

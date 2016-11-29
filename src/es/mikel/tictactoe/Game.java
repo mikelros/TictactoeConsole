@@ -22,9 +22,10 @@ public class Game {
 		player.setIcon("X");
 		ai = new AI(this);
 		ai.setIcon("O");
+		printMenu(); // TODO add code to each option, maybe splash screen before menu
 		setFirst();
 		loop();
-		System.out.println("FINISHED");
+		System.out.println("SESSION FINISHED");
 		Scanner scanner = new Scanner(System.in);
 		scanner.nextLine();
 	}
@@ -155,17 +156,16 @@ public class Game {
 	}
 	
 	private void printMenu() {
-//		TODO finish menu
 		System.out.println("╔══════════════════════════════════════════════╗");
 		System.out.println("║                  GAME MENU                   ║");
 		System.out.println("╚══════════════════════════════════════════════╝");
 		System.out.println("╔══════════════════════════════════════════════╗");
 		System.out.println("║                                              ║");
-		System.out.println("║                                              ║");
-		System.out.println("║                                              ║");
-		System.out.println("║                                              ║");
-		System.out.println("║                                              ║");
-		System.out.println("║                                              ║");
+		System.out.println("║               1.- Start game                 ║");
+		System.out.println("║               2.- Leaderboard                ║");
+		System.out.println("║               3.- Config                     ║");
+		System.out.println("║               4.- About                      ║");
+		System.out.println("║               5.- Exit                       ║");
 		System.out.println("║                                              ║");
 		System.out.println("╠══════════════════════════════════════════════╣");
 		System.out.println("║          Please select one option:           ║");
